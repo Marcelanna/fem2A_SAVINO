@@ -51,10 +51,17 @@ namespace FEM2A {
             return true;
         }
         
-        bool test_quadrature()
+        bool test_quadrature(int order, bool border)
         {
-        std :: cout << "cc"<< std :: endl;
-        return true;
+        	Quadrature test;
+        	test = test.get_quadrature(order, border);
+        	double sum = 0;
+        	std::cout << "Test Quadrature" << std::endl;
+        	for (int i = 0; i<test.nb_points(); i++){
+        		sum += test.weight(i);
+        	}
+        	std::cout<< sum << std::endl;
+        	return true;
         }
 
     }
