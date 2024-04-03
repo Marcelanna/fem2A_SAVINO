@@ -63,6 +63,14 @@ namespace FEM2A {
         	std::cout<< sum << std::endl;
         	return true;
         }
-
+        
+        bool test_ElementMapping(std::string M, bool border, int i)
+        {
+        	Mesh mesh;
+            	mesh.load(M);
+            	
+        	ElementMapping elmt = ElementMapping::ElementMapping( const Mesh& M, bool border, int i ): border_( border );
+        	print(elmt.x_);
+        	print(elmt.y_);
     }
 }
