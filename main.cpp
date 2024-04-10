@@ -38,7 +38,7 @@ void run_tests()
     if( t_lmesh ) Tests::test_load_mesh();
     if( t_io ) Tests::test_load_save_mesh();
     if( t_quadrature ) Tests::test_quadrature(4, false);
-    if(t_elmt_map) Tets::test_ElementMapping("data/square.mesh", false, 4);
+    if(t_elmt_map) Tests::test_ElementMapping("data/square.mesh", false, 4);
 }
 
 void run_simu()
@@ -86,4 +86,5 @@ int main( int argc, const char * argv[] )
     }
 
     return 0;
+}
 }

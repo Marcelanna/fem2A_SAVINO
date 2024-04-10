@@ -70,7 +70,8 @@ namespace FEM2A {
             	mesh.load(M);
             	
         	ElementMapping elmt = ElementMapping::ElementMapping( const Mesh& M, bool border, int i ): border_( border );
-        	print(elmt.x_);
-        	print(elmt.y_);
+        	std :: cout << elmt.x_<< std::endl;
+        	std :: cout << elmt.y_<< std::endl;
+        	return true;
     }
 }
