@@ -136,7 +136,7 @@ namespace FEM2A {
         std::vector< vertex > vertices;
         if ( border ){
         	std::cout << "edge";
-        	for (int num_vertex = 0; num_vertex < 2; i++)
+        	for (int num_vertex = 0; num_vertex < 2; num_vertex++)
         	{
         		vertices.push_back(M.get_edge_vertex( i, num_vertex));
         	}}
@@ -145,11 +145,15 @@ namespace FEM2A {
         
         if(not border ){
         	std::cout << "triangle";
-        	for (int num_vertex = 0; num_vertex < 3; i++)
+        	for (int num_vertex = 0; num_vertex < 3; num_vertex++)
         	{
         		vertices.push_back(M.get_triangle_vertex( i, num_vertex));
         	}}
         vertices_ = vertices;
+        
+        for (int i = 0; i<vertices_.size(); i ++){
+        	std::cout<<vertices_[i]<<std::endl;
+        	}
     }
 
     vertex ElementMapping::transform( vertex x_r ) const
