@@ -94,5 +94,21 @@ namespace FEM2A {
     		
     		return true;
     	}
+    	
+    	bool test_jacob(double x, double y)
+    	{
+    		Mesh mesh;
+            	mesh.load("data/square.mesh");
+            	ElementMapping elmt = ElementMapping( mesh, false, 4 );
+    		
+    		vertex point;
+    		point.x = x;
+    		point.y = y;
+    		
+    		DenseMatrix jacob_point;
+    		jacob_point = elmt.jacobian_matrix( point );
+    		jacob_point.print();
+    		return true;
+    	}
     }
 }
