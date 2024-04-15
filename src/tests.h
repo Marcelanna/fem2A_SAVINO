@@ -125,5 +125,23 @@ namespace FEM2A {
     		
     		return true;
     	}
+    	
+    	bool test_evaluate(int dim, int i, double x, double y)
+    	{
+    		ShapeFunctions elmt = ShapeFunctions( dim, 1 );
+    		
+    		
+    		vertex point;
+    		point.x = x;
+    		point.y = y;
+    		
+    		//Test of the evaluation of the i-th shapefunction
+    		std::cout << "Function evaluation" << elmt.evaluate(i, point) << std::endl;
+    		
+    		//Test of the evaluation of the gradiant of the i-th shapefunction
+		std::cout << "Gradient evaluation" << elmt.evaluate_grad(i, point).x << elmt.evaluate_grad(i, point).y << std::endl;
+    		
+    		return true;
+    	}
     }
 }

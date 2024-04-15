@@ -48,9 +48,11 @@ void run_tests()
     if( t_jacob ) Tests::test_jacob(0.2, 0.4);
     
     //Tests ShapeFunction
-    const bool t_shpfunct = true;
+    const bool t_shpfunct = false;
+    const bool t_evaluate =true;
     
     if( t_shpfunct ) Tests::test_shpfct(2,1);
+    if( t_evaluate ) Tests::test_evaluate(2, 2, 0.2, 0.4);
 }
 
 void run_simu()

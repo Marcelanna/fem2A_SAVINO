@@ -252,15 +252,40 @@ namespace FEM2A {
     double ShapeFunctions::evaluate( int i, vertex x_r ) const
     {
         std::cout << "[ShapeFunctions] evaluate shape function " << i << '\n';
-        // TODO
+        
+        if (dim_==1)
+	{
+		double shpfunctions[2] = {1 - x_r.x, x_r.x};
+		return shpfunctions[i];
+	}
+	else
+	{
+		double shpfunctions[3] = {1 - x_r.x - x_r.y,x_r.x, x_r.y};
+		return shpfunctions[i];
+        }
         return 0. ; // should not be reached
     }
 
     vec2 ShapeFunctions::evaluate_grad( int i, vertex x_r ) const
     {
         std::cout << "[ShapeFunctions] evaluate gradient shape function " << i << '\n';
-        // TODO
+        
         vec2 g ;
+        if (dim_==1)
+	{
+		int Lxi[2] = {-1,1};
+		int Leta[2] = {0, 0};
+		g.x = Lxi[i];
+		g.y = Leta[i];
+	}
+	else
+	{
+		int Lxi[3] = {-1, 1, 0};
+		int Leta[3] = {-1,0,1};
+		g.x = Lxi[i];
+		g.y = Leta[i];
+        }
+        
         return g ;
     }
 
