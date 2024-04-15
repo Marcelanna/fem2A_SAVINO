@@ -78,8 +78,20 @@ namespace FEM2A {
         	return true;
     	}
     	
-    	bool test_transf(vertex x_r)
+    	bool test_transf(double x, double y)
     	{
+    		Mesh mesh;
+            	mesh.load("data/square.mesh");
+            	ElementMapping elmt = ElementMapping( mesh, false, 4 );
+    		
+    		vertex point;
+    		point.x = x;
+    		point.y = y;
+    		
+    		vertex real_point;
+    		real_point = elmt.transform( point );
+    		std::cout << real_point.x << " " << real_point.y << std::endl;
+    		
     		return true;
     	}
     }
