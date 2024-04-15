@@ -105,9 +105,19 @@ namespace FEM2A {
     		point.x = x;
     		point.y = y;
     		
+    		//Test du calcul de la matrice jacobienne
+    		std::cout << "Test de la matrice jacobienne"<< std::endl;
     		DenseMatrix jacob_point;
     		jacob_point = elmt.jacobian_matrix( point );
     		jacob_point.print();
+    		
+    		//Test du calcul du déterminant de la matrice jacobienne
+    		std::cout << "Test determinant matrice jacobienne"<< std::endl;
+    		double det;
+    		det = elmt.jacobian( point );
+    		std::cout << det << std::endl;
+    		
+    		
     		return true;
     	}
     }
