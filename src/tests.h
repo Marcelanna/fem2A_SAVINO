@@ -71,10 +71,6 @@ namespace FEM2A {
             	
         	ElementMapping elmt = ElementMapping( mesh, border, i );
         	
-        	/*for( int num_vertex = 0; num_vertex < 2; num_vertex++){
-                	std::cout << M.get_vertex(num_vertex).x << " " << M.get_vertex(num_vertex).y
-                	mesh.get_triangle_vertex_index(i, num_vertex)<< std::endl;}*/
-                	
         	return true;
     	}
     	
@@ -117,6 +113,15 @@ namespace FEM2A {
     		det = elmt.jacobian( point );
     		std::cout << det << std::endl;
     		
+    		
+    		return true;
+    	}
+    	
+    	bool test_shpfct(int dim, int order)
+    	{
+    		ShapeFunctions elmt = ShapeFunctions( dim, order );
+    		
+    		std::cout << elmt.nb_functions() << std::endl;
     		
     		return true;
     	}

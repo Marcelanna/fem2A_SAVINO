@@ -33,17 +33,24 @@ void run_tests()
     const bool t_io = false;
     const bool t_quadrature = false;
     
-    const bool t_elmt_map = false;
-    const bool t_transf = false;
-    const bool t_jacob = true;
-
     if( t_opennl ) test_opennl();
     if( t_lmesh ) Tests::test_load_mesh();
     if( t_io ) Tests::test_load_save_mesh();
     if( t_quadrature ) Tests::test_quadrature(4, false);
+    
+    //Tests ElementMapping
+    const bool t_elmt_map = false;
+    const bool t_transf = false;
+    const bool t_jacob = false;
+
     if( t_elmt_map ) Tests::test_ElementMapping("data/square.mesh", false, 4);
     if( t_transf ) Tests::test_transf(0.2, 0.4);
     if( t_jacob ) Tests::test_jacob(0.2, 0.4);
+    
+    //Tests ShapeFunction
+    const bool t_shpfunct = true;
+    
+    if( t_shpfunct ) Tests::test_shpfct(2,1);
 }
 
 void run_simu()

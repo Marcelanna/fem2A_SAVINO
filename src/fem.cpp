@@ -233,14 +233,19 @@ namespace FEM2A {
     ShapeFunctions::ShapeFunctions( int dim, int order )
         : dim_( dim ), order_( order )
     {
+        assert(dim == 1||dim == 2);
         std::cout << "[ShapeFunctions] constructor in dimension " << dim << '\n';
-        // TODO
+        assert(order == 1);
+	std::cout<< "for a function of order " << order << '\n';
     }
 
     int ShapeFunctions::nb_functions() const
     {
         std::cout << "[ShapeFunctions] number of functions" << '\n';
-        // TODO
+        if(dim_ == 1)
+        	{return 2;}
+        else
+        	{return 3;}
         return 0 ;
     }
 
