@@ -135,32 +135,47 @@ namespace FEM2A {
         std::cout << "[ElementMapping] constructor for element " << i << " ";
         std::vector< vertex > vertices;
         if ( border ){
-        	std::cout << "edge";
+        	std::cout << "edge"<< std::endl;
         	for (int num_vertex = 0; num_vertex < 2; num_vertex++)
-        	{
+        		{
         		vertices.push_back(M.get_edge_vertex( i, num_vertex));
-        	}}
+        		}
         	
+        	vertices_ = vertices;
+        	
+        	/*for (int num_vertex = 0; num_vertex < 2; num_vertex++)
+        		{
+        		std::cout<< vertices_[num_vertex].x <<" "<< vertices_[num_vertex].y << std::endl;
+        		}*/
+        	}
+        
         std::cout << '\n';
         
-        if(not border ){
-        	std::cout << "triangle";
+        if( not border ){
+        	std::cout << "triangle"<< std::endl;
         	for (int num_vertex = 0; num_vertex < 3; num_vertex++)
-        	{
+        		{
         		vertices.push_back(M.get_triangle_vertex( i, num_vertex));
-        	}}
-        vertices_ = vertices;
-        
-        for (int i = 0; i<vertices_.size(); i ++){
-        	std::cout<<vertices_[i]<<std::endl;
+        		}
+        	
+        	vertices_ = vertices;
+        	
+        	/*for( int num_vertex = 0; num_vertex < 3; num_vertex++)
+        		{
+                	std::cout << vertices_[num_vertex].x <<" "<< vertices_[num_vertex].y << std::endl;
+          		}*/
         	}
+        	
     }
 
     vertex ElementMapping::transform( vertex x_r ) const
     {
         std::cout << "[ElementMapping] transform reference to world space" << '\n';
         vertex r ;
-        //r = quadrature(vertex x_r);
+        
+        //if (border_){
+        	
+        	
         return r ;
     }
 

@@ -33,12 +33,14 @@ void run_tests()
     const bool t_io = false;
     const bool t_quadrature = false;
     const bool t_elmt_map = true;
+    const bool t_transf = false;
 
     if( t_opennl ) test_opennl();
     if( t_lmesh ) Tests::test_load_mesh();
     if( t_io ) Tests::test_load_save_mesh();
     if( t_quadrature ) Tests::test_quadrature(4, false);
-    if(t_elmt_map) Tests::test_ElementMapping("data/square.mesh", false, 4);
+    if( t_elmt_map ) Tests::test_ElementMapping("data/square.mesh", false, 4);
+    //if( t_transf ) Tests::test_transf(<0.2, 0.4>);
 }
 
 void run_simu()
@@ -86,5 +88,4 @@ int main( int argc, const char * argv[] )
     }
 
     return 0;
-}
 }

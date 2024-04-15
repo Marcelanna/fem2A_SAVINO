@@ -71,8 +71,16 @@ namespace FEM2A {
             	
         	ElementMapping elmt = ElementMapping( mesh, border, i );
         	
-        	//std :: cout << elmt.x_<< std::endl;
-        	//std :: cout << elmt.y_<< std::endl;
+        	/*for( int num_vertex = 0; num_vertex < 2; num_vertex++){
+                	std::cout << M.get_vertex(num_vertex).x << " " << M.get_vertex(num_vertex).y
+                	mesh.get_triangle_vertex_index(i, num_vertex)<< std::endl;}*/
+                	
         	return true;
+    	}
+    	
+    	bool test_transf(vertex x_r)
+    	{
+    		return true;
+    	}
     }
 }
