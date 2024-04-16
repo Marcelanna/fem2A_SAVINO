@@ -300,7 +300,26 @@ namespace FEM2A {
         DenseMatrix& Ke )
     {
         std::cout << "compute elementary matrix" << '\n';
-        // TODO
+        
+        double sum = 0;
+        for(int i = 0; i < quadrature.nb_points(); i++)
+        {
+        	for(int j = 0; j < quadrature.nb_points(); j++)
+        	{
+        		for(int q = 0; q < quadrature.nb_points(), q++)
+        		{
+        			vertex pts_quad = quadrature.point( q );
+        			double w = quadrature.weight( q );
+        			double k = coefficent(pts_quad);
+        			J = jacobian( pts_quad );
+        			vec2 grad =  evaluate_grad( q, pts_quad );
+        			
+        			sum += (w * k * dot(J.mult_2x2_2( grad ), J.mult_2x2_2( grad );
+        			 
+        		}
+        	}
+        }
+        
     }
 
     void local_to_global_matrix(

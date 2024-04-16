@@ -49,10 +49,15 @@ void run_tests()
     
     //Tests ShapeFunction
     const bool t_shpfunct = false;
-    const bool t_evaluate =true;
+    const bool t_evaluate = false;
     
     if( t_shpfunct ) Tests::test_shpfct(2,1);
     if( t_evaluate ) Tests::test_evaluate(2, 2, 0.2, 0.4);
+    
+    //Test assemble_elementary_matrix
+    const bool t_ass_el_matrix = true;
+    
+    if( t_ass_el_matrix ) Tests::test_ass_el_matrix("data/square.mesh", false, 2, 2, 2);
 }
 
 void run_simu()

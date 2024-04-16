@@ -143,5 +143,28 @@ namespace FEM2A {
     		
     		return true;
     	}
+    	
+    	double unit_fct( vertex v )
+        {
+            return 1.;
+        }
+    	
+    	bool test_ass_el_matrix(std::string M, bool border, int order, int dim, int i)
+    	{
+    		Mesh mesh;
+            	mesh.load(M);
+            	
+        	ElementMapping elt_mapping = ElementMapping( mesh, border, i );
+    		ShapeFunctions reference_functions = ShapeFunctions( dim, order = 1 );
+    		Quadrature quadrature;
+    		quadrature = quadrature.get_quadrature(order, border);
+    		
+    		DenseMatrix Ke;
+    		Ke.set_size(3,3);
+    		
+    		
+    		assemble_elementary_matrix( elt_mapping, reference_functions, quadrature, unit_fct, Ke);
+    		return true;
+    	}
     }
 }
