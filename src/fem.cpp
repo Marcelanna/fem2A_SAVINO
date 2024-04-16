@@ -381,7 +381,25 @@ namespace FEM2A {
         std::vector< double >& F )
     {
         std::cout << "apply dirichlet boundary conditions" << '\n';
-        // TODO
+        std::vector<bool> vertices_studied(values.size(), false);
+        double coeff_mult = 1000;
+        for( int edge=0; edge<M.nb_edges(); edge++)
+        {
+        	int edge_attribute=M.get_edge_attribute(edge);
+        	if( attribute_is_dirichlet[edge_attribute])
+        	{
+        		for( int v = 0; v<2; v++)
+        		{
+        		int vertex_index = M.get_edge_vertex_index(edge,v);
+			if( !vertices_studied[vertex_index])
+        			{
+        				vertices_studied[vertex_index] = true;
+        				K.add(vertex_index, vertex_index, coeff_mult);
+        				F[vertex_index] += coeff_mult * values[vertex_index];
+        			}
+        		}
+        	}
+        }
     }
 
     void solve_poisson_problem(
