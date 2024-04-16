@@ -132,7 +132,7 @@ namespace FEM2A {
     ElementMapping::ElementMapping( const Mesh& M, bool border, int i )
         : border_( border )
     {
-        std::cout << "[ElementMapping] constructor for element " << i << " ";
+        //std::cout << "[ElementMapping] constructor for element " << i << " ";
         std::vector< vertex > vertices;
         if ( border ){
         	std::cout << "edge"<< std::endl;
@@ -142,17 +142,13 @@ namespace FEM2A {
         		}
         	
         	vertices_ = vertices;
-        	
-        	/*for (int num_vertex = 0; num_vertex < 2; num_vertex++)
-        		{
-        		std::cout<< vertices_[num_vertex].x <<" "<< vertices_[num_vertex].y << std::endl;
-        		}*/
+        
         	}
         
         std::cout << '\n';
         
         if( not border ){
-        	std::cout << "triangle"<< std::endl;
+        	//std::cout << "triangle"<< std::endl;
         	for (int num_vertex = 0; num_vertex < 3; num_vertex++)
         		{
         		vertices.push_back(M.get_triangle_vertex( i, num_vertex));
@@ -160,17 +156,13 @@ namespace FEM2A {
         	
         	vertices_ = vertices;
         	
-        	/*for( int num_vertex = 0; num_vertex < 3; num_vertex++)
-        		{
-                	std::cout << vertices_[num_vertex].x <<" "<< vertices_[num_vertex].y << std::endl;
-          		}*/
         	}
         	
     }
 
     vertex ElementMapping::transform( vertex x_r ) const
     {
-        std::cout << "[ElementMapping] transform reference to world space" << '\n';
+        //std::cout << "[ElementMapping] transform reference to world space" << '\n';
         vertex r ;
         
         if ( border_ ){
@@ -189,7 +181,7 @@ namespace FEM2A {
 
     DenseMatrix ElementMapping::jacobian_matrix( vertex x_r ) const
     {
-        std::cout << "[ElementMapping] compute jacobian matrix" << '\n';
+        //std::cout << "[ElementMapping] compute jacobian matrix" << '\n';
         DenseMatrix J ;
         
         if ( border_ ){
@@ -209,7 +201,7 @@ namespace FEM2A {
 
     double ElementMapping::jacobian( vertex x_r ) const
     {
-        std::cout << "[ElementMapping] compute jacobian determinant" << '\n';
+        //std::cout << "[ElementMapping] compute jacobian determinant" << '\n';
         DenseMatrix J ;
         double det;
         
@@ -234,14 +226,14 @@ namespace FEM2A {
         : dim_( dim ), order_( order )
     {
         assert(dim == 1||dim == 2);
-        std::cout << "[ShapeFunctions] constructor in dimension " << dim << '\n';
+        //std::cout << "[ShapeFunctions] constructor in dimension " << dim << '\n';
         assert(order == 1);
-	std::cout<< "for a function of order " << order << '\n';
+	//std::cout<< "for a function of order " << order << '\n';
     }
 
     int ShapeFunctions::nb_functions() const
     {
-        std::cout << "[ShapeFunctions] number of functions" << '\n';
+        //std::cout << "[ShapeFunctions] number of functions" << '\n';
         if(dim_ == 1)
         	{return 2;}
         else
@@ -251,7 +243,7 @@ namespace FEM2A {
 
     double ShapeFunctions::evaluate( int i, vertex x_r ) const
     {
-        std::cout << "[ShapeFunctions] evaluate shape function " << i << '\n';
+        //std::cout << "[ShapeFunctions] evaluate shape function " << i << '\n';
         
         if (dim_==1)
 	{
@@ -268,7 +260,7 @@ namespace FEM2A {
 
     vec2 ShapeFunctions::evaluate_grad( int i, vertex x_r ) const
     {
-        std::cout << "[ShapeFunctions] evaluate gradient shape function " << i << '\n';
+        //std::cout << "[ShapeFunctions] evaluate gradient shape function " << i << '\n';
         
         vec2 g ;
         if (dim_==1)
@@ -301,20 +293,27 @@ namespace FEM2A {
     {
         std::cout << "compute elementary matrix" << '\n';
         
-        double sum = 0;
+        Ke.set_size(reference_functions.nb_functions(),reference_functions.nb_functions());
+        
         for(int i = 0; i < quadrature.nb_points(); i++)
         {
         	for(int j = 0; j < quadrature.nb_points(); j++)
         	{
-        		for(int q = 0; q < quadrature.nb_points(), q++)
+        		Ke.set(i,j,0);
+        		for(int q = 0; q < quadrature.nb_points(); q++)
         		{
         			vertex pts_quad = quadrature.point( q );
         			double w = quadrature.weight( q );
-        			double k = coefficent(pts_quad);
-        			J = jacobian( pts_quad );
-        			vec2 grad =  evaluate_grad( q, pts_quad );
+        			double k = coefficient(elt_mapping.transform(pts_quad));
+        			DenseMatrix J = elt_mapping.jacobian_matrix( pts_quad );
+        			DenseMatrix invJ = J.invert_2x2();
+        			DenseMatrix transJ = J.transpose();
+        			DenseMatrix transinvJ = invJ.transpose();
+        			vec2 grad_i = reference_functions.evaluate_grad( i, pts_quad );
+        			vec2 grad_j = reference_functions.evaluate_grad( j, pts_quad );      			
+        			double det = elt_mapping.jacobian(pts_quad);
         			
-        			sum += (w * k * dot(J.mult_2x2_2( grad ), J.mult_2x2_2( grad );
+        			Ke.add(i,j, w * k * dot(transinvJ.mult_2x2_2( grad_i ), transinvJ.mult_2x2_2( grad_j )) * det);
         			 
         		}
         	}

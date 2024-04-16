@@ -57,7 +57,7 @@ void run_tests()
     //Test assemble_elementary_matrix
     const bool t_ass_el_matrix = true;
     
-    if( t_ass_el_matrix ) Tests::test_ass_el_matrix("data/square.mesh", false, 2, 2, 2);
+    if( t_ass_el_matrix ) Tests::test_ass_el_matrix("data/square.mesh", false, 2, 2, 4);
 }
 
 void run_simu()

@@ -155,15 +155,13 @@ namespace FEM2A {
             	mesh.load(M);
             	
         	ElementMapping elt_mapping = ElementMapping( mesh, border, i );
-    		ShapeFunctions reference_functions = ShapeFunctions( dim, order = 1 );
+    		ShapeFunctions reference_functions = ShapeFunctions( dim, 1 );
     		Quadrature quadrature;
     		quadrature = quadrature.get_quadrature(order, border);
-    		
     		DenseMatrix Ke;
-    		Ke.set_size(3,3);
-    		
     		
     		assemble_elementary_matrix( elt_mapping, reference_functions, quadrature, unit_fct, Ke);
+    		Ke.print();
     		return true;
     	}
     }
