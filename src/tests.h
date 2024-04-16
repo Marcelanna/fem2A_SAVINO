@@ -162,7 +162,30 @@ namespace FEM2A {
     		
     		assemble_elementary_matrix( elt_mapping, reference_functions, quadrature, unit_fct, Ke);
     		Ke.print();
+    		
     		return true;
+    	}
+    	
+    	bool test_local_to_global(std::string M, int t)
+    	{
+    		Mesh mesh;
+            	mesh.load(M);
+            	
+    		DenseMatrix Ke;
+    		ElementMapping elt_mapping = ElementMapping( mesh, false, 4 );
+    		ShapeFunctions reference_functions = ShapeFunctions( 2, 1 );
+    		Quadrature quadrature;
+    		quadrature = quadrature.get_quadrature(2, false);
+    		assemble_elementary_matrix(elt_mapping, reference_functions, quadrature, unit_fct, Ke);
+    		
+    		SparseMatrix K(mesh.nb_vertices());
+    		
+    		local_to_global_matrix( mesh, t, Ke, K );
+    		
+    		K.print();
+    		
+    		return true;
+    		
     	}
     }
 }

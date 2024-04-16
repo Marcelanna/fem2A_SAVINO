@@ -295,9 +295,9 @@ namespace FEM2A {
         
         Ke.set_size(reference_functions.nb_functions(),reference_functions.nb_functions());
         
-        for(int i = 0; i < quadrature.nb_points(); i++)
+        for(int i = 0; i < reference_functions.nb_functions(); i++)
         {
-        	for(int j = 0; j < quadrature.nb_points(); j++)
+        	for(int j = 0; j < reference_functions.nb_functions(); j++)
         	{
         		Ke.set(i,j,0);
         		for(int q = 0; q < quadrature.nb_points(); q++)
@@ -328,7 +328,16 @@ namespace FEM2A {
         SparseMatrix& K )
     {
         std::cout << "Ke -> K" << '\n';
-        // TODO
+        
+ 	for(int i = 0; i < Ke.height(); i++)
+        {
+        	for(int j = 0; j < Ke.width(); j++)
+        	{
+        		int c = M.get_triangle_vertex_index( t, i );
+        		int l = M.get_triangle_vertex_index( t, j );
+        		K.add(l,c, Ke.get(i,j));
+        	}
+        }
     }
 
     void assemble_elementary_vector(

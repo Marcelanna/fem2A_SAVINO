@@ -54,10 +54,12 @@ void run_tests()
     if( t_shpfunct ) Tests::test_shpfct(2,1);
     if( t_evaluate ) Tests::test_evaluate(2, 2, 0.2, 0.4);
     
-    //Test assemble_elementary_matrix
-    const bool t_ass_el_matrix = true;
+    //Test Finite Element functions
+    const bool t_ass_el_matrix = false;
+    const bool t_loc_to_mat = true;
     
     if( t_ass_el_matrix ) Tests::test_ass_el_matrix("data/square.mesh", false, 2, 2, 4);
+    if( t_loc_to_mat ) Tests::test_local_to_global("data/square.mesh", 4);
 }
 
 void run_simu()
