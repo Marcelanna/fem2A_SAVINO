@@ -157,7 +157,7 @@ namespace FEM2A {
         	ElementMapping elt_mapping = ElementMapping( mesh, border, i );
     		ShapeFunctions reference_functions = ShapeFunctions( dim, 1 );
     		Quadrature quadrature;
-    		quadrature = quadrature.get_quadrature(order, border);
+    		quadrature = Quadrature::get_quadrature(order, border);
     		DenseMatrix Ke;
     		
     		assemble_elementary_matrix( elt_mapping, reference_functions, quadrature, unit_fct, Ke);
@@ -175,17 +175,64 @@ namespace FEM2A {
     		ElementMapping elt_mapping = ElementMapping( mesh, false, 4 );
     		ShapeFunctions reference_functions = ShapeFunctions( 2, 1 );
     		Quadrature quadrature;
-    		quadrature = quadrature.get_quadrature(2, false);
+    		quadrature = Quadrature::get_quadrature(2, false);
     		assemble_elementary_matrix(elt_mapping, reference_functions, quadrature, unit_fct, Ke);
     		
     		SparseMatrix K(mesh.nb_vertices());
     		
     		local_to_global_matrix( mesh, t, Ke, K );
     		
-    		K.print();
+    		//K.print();
     		
     		return true;
     		
     	}
+    	
+    	bool test_dirichlet_boundary_cdt(std::string M)
+    	{
+    		Mesh mesh;
+            	mesh.load(M);
+            	
+            	//Initialize K
+            	DenseMatrix Ke;
+    		ElementMapping elt_mapping = ElementMapping( mesh, false, 4 );
+    		ShapeFunctions reference_functions = ShapeFunctions( 2, 1 );
+    		Quadrature quadrature;
+    		quadrature = Quadrature::get_quadrature(2, false);
+    		assemble_elementary_matrix(elt_mapping, reference_functions, quadrature, unit_fct, Ke);
+    		SparseMatrix K(mesh.nb_vertices());
+    		int t = 4;
+    		 
+    		local_to_global_matrix( mesh, t, Ke, K );
+            	
+            	//Initialize attribut_is_dirichlet
+            	std::vector< bool > attribute_is_dirichlet(1, true);
+            	
+            	//Initialize all attributes to 1
+            	mesh.set_attribute(unit_fct, 1, true );
+            	
+            	//Initialize values
+            	std::vector< double > values;
+            	for( int i=0; i<mesh.nb_vertices(); i++)
+            	{
+            		values.push_back(mesh.get_vertex(i).x + mesh.get_vertex(i).y);
+            	}
+            	
+            	//Initialize F
+            	std::vector< double > F(mesh.nb_vertices(), 0);
+            	
+            	
+            	apply_dirichlet_boundary_conditions(mesh, attribute_is_dirichlet, values, K, F );
+            	
+            	//K.print();
+            	
+            	for( int i=0; i<F.size(); i++)
+            	{
+            		std::cout<< F[i] << std::endl;
+            	}
+            	
+            	return true;
+    	} 
+    	
     }
 }

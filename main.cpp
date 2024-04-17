@@ -56,10 +56,12 @@ void run_tests()
     
     //Test Finite Element functions
     const bool t_ass_el_matrix = false;
-    const bool t_loc_to_mat = true;
+    const bool t_loc_to_mat = false;
+    const bool t_dirichlet_boundary_cdt = false;
     
     if( t_ass_el_matrix ) Tests::test_ass_el_matrix("data/square.mesh", false, 2, 2, 4);
     if( t_loc_to_mat ) Tests::test_local_to_global("data/square.mesh", 4);
+    if( t_dirichlet_boundary_cdt ) Tests::test_dirichlet_boundary_cdt("data/square.mesh");
 }
 
 void run_simu()

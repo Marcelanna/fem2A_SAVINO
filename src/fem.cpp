@@ -291,7 +291,7 @@ namespace FEM2A {
         double (*coefficient)(vertex),
         DenseMatrix& Ke )
     {
-        std::cout << "compute elementary matrix" << '\n';
+        //std::cout << "compute elementary matrix" << '\n';
         
         Ke.set_size(reference_functions.nb_functions(),reference_functions.nb_functions());
         
@@ -327,7 +327,7 @@ namespace FEM2A {
         const DenseMatrix& Ke,
         SparseMatrix& K )
     {
-        std::cout << "Ke -> K" << '\n';
+        //std::cout << "Ke -> K" << '\n';
         
  	for(int i = 0; i < Ke.height(); i++)
         {
@@ -380,7 +380,7 @@ namespace FEM2A {
         SparseMatrix& K,
         std::vector< double >& F )
     {
-        std::cout << "apply dirichlet boundary conditions" << '\n';
+        //std::cout << "apply dirichlet boundary conditions" << '\n';
         std::vector<bool> vertices_studied(values.size(), false);
         double coeff_mult = 1000;
         for( int edge=0; edge<M.nb_edges(); edge++)
