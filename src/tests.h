@@ -166,7 +166,7 @@ namespace FEM2A {
     		return true;
     	}
     	
-    	bool test_local_to_global(std::string M, int t)
+    	bool test_local_to_global_m(std::string M, int t)
     	{
     		Mesh mesh;
             	mesh.load(M);
@@ -233,6 +233,53 @@ namespace FEM2A {
             	
             	return true;
     	} 
+    	
+    	bool test_ass_el_vector(std::string M, bool border, int order, int dim, int i)
+    	{
+    		Mesh mesh;
+            	mesh.load(M);
+            	
+        	ElementMapping elt_mapping = ElementMapping( mesh, border, i );
+    		ShapeFunctions reference_functions = ShapeFunctions( dim, 1 );
+    		Quadrature quadrature;
+    		quadrature = Quadrature::get_quadrature(order, border);
+    		std::vector< double > Fe(reference_functions.nb_functions(),0 );
+        
+    		assemble_elementary_vector( elt_mapping, reference_functions, quadrature, unit_fct, Fe );
+    		
+    		for(int i =0; i<Fe.size(); i++)
+    		{
+    			std::cout<< Fe[i] << std::endl;
+    		}
+    		
+    		return true;
+    	}
+    	
+    	bool test_local_to_global_v(std::string M, bool border, int order, int dim, int i)
+    	{
+    		Mesh mesh;
+            	mesh.load(M);
+
+    		ElementMapping elt_mapping = ElementMapping( mesh, border, i );
+    		ShapeFunctions reference_functions = ShapeFunctions( dim, 1 );
+    		Quadrature quadrature;
+    		quadrature = Quadrature::get_quadrature(order, border);
+    		
+    		std::vector< double > Fe(reference_functions.nb_functions(),0 );
+    		assemble_elementary_vector( elt_mapping, reference_functions, quadrature, unit_fct, Fe );
+    		
+    		std::vector< double > F(mesh.nb_vertices(),0);
+    		
+    		local_to_global_vector(mesh, border, i, Fe, F );
+    		
+    		for( int i=0; i<F.size(); i++)
+            	{
+            		std::cout<< F[i] << std::endl;
+            	}
+    		
+    		return true;
+    		
+    	}
     	
     }
 }

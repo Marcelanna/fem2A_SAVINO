@@ -135,7 +135,7 @@ namespace FEM2A {
         //std::cout << "[ElementMapping] constructor for element " << i << " ";
         std::vector< vertex > vertices;
         if ( border ){
-        	std::cout << "edge"<< std::endl;
+        	//std::cout << "edge"<< std::endl;
         	for (int num_vertex = 0; num_vertex < 2; num_vertex++)
         		{
         		vertices.push_back(M.get_edge_vertex( i, num_vertex));
@@ -347,8 +347,23 @@ namespace FEM2A {
         double (*source)(vertex),
         std::vector< double >& Fe )
     {
-        std::cout << "compute elementary vector (source term)" << '\n';
-        // TODO
+        //std::cout << "compute elementary vector (source term)" << '\n';
+        
+        for(int i = 0; i < reference_functions.nb_functions(); i++)
+        	{
+        	double sum_i = 0;
+        		for(int q = 0; q < quadrature.nb_points(); q++)
+        		{
+        			vertex pts_quad = quadrature.point( q );
+        			double w = quadrature.weight( q );
+        			double f = source(elt_mapping.transform(pts_quad));
+        			double phi_i = reference_functions.evaluate( i, pts_quad );     			
+        			double det = elt_mapping.jacobian(pts_quad);
+        			
+        			sum_i +=  w * f * phi_i * det; 
+        		}
+        	Fe[i] = sum_i;
+        	}
     }
 
     void assemble_elementary_neumann_vector(
@@ -369,8 +384,28 @@ namespace FEM2A {
         std::vector< double >& Fe,
         std::vector< double >& F )
     {
-        std::cout << "Fe -> F" << '\n';
-        // TODO
+        //std::cout << "Fe -> F" << '\n';
+        
+        if( border )
+        {
+        	for(int indice_v = 0; indice_v < Fe.size(); indice_v++)
+        	{
+        		int indice_edge = M.get_edge_vertex_index( i, indice_v );
+        		F[indice_edge] = Fe[indice_v];
+        	}
+        }
+        
+        if( not border )
+        {
+        	for(int indice_v = 0; indice_v < Fe.size(); indice_v++)
+        	{
+        		double indice_triangle = M.get_triangle_vertex_index( i, indice_v );
+        		F[indice_triangle] = Fe[indice_v];
+        	}
+        }
+        
+        
+        
     }
 
     void apply_dirichlet_boundary_conditions(

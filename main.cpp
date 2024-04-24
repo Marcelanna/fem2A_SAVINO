@@ -58,22 +58,32 @@ void run_tests()
     const bool t_ass_el_matrix = false;
     const bool t_loc_to_mat = false;
     const bool t_dirichlet_boundary_cdt = false;
+    const bool t_vector_Fe = false;
+    const bool t_loc_to_vect = false;
+     
     
     if( t_ass_el_matrix ) Tests::test_ass_el_matrix("data/square.mesh", false, 2, 2, 4);
-    if( t_loc_to_mat ) Tests::test_local_to_global("data/square.mesh", 4);
+    if( t_loc_to_mat ) Tests::test_local_to_global_m("data/square.mesh", 4);
     if( t_dirichlet_boundary_cdt ) Tests::test_dirichlet_boundary_cdt("data/square.mesh");
+    if( t_vector_Fe ) Tests::test_ass_el_vector("data/square.mesh", true, 2, 1, 4);
+    if (t_loc_to_vect) Tests::test_local_to_global_v("data/square.mesh", false, 2, 2, 4);
 }
 
 void run_simu()
 {
 
-    const bool simu_pure_dirichlet = true;
+    const bool simu_pure_dirichlet = false;
+    const bool simu_source_dirichlet = true;
 
     const bool verbose = flag_is_used( "-v", arguments )
         || flag_is_used( "--verbose", arguments );
 
     if( simu_pure_dirichlet ) {
         Simu::pure_dirichlet_pb("data/square_fine.mesh", verbose );
+    }
+    
+    if( simu_source_dirichlet ) {
+        Simu::source_dirichlet_pb("data/square_fine.mesh", verbose );
     }
 }
 
