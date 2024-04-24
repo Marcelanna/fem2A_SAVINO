@@ -73,7 +73,8 @@ void run_simu()
 {
 
     const bool simu_pure_dirichlet = false;
-    const bool simu_source_dirichlet = true;
+    const bool simu_source_dirichlet = false;
+    const bool simu_sin_bump_dirichlet = true;
 
     const bool verbose = flag_is_used( "-v", arguments )
         || flag_is_used( "--verbose", arguments );
@@ -84,6 +85,10 @@ void run_simu()
     
     if( simu_source_dirichlet ) {
         Simu::source_dirichlet_pb("data/square_fine.mesh", verbose );
+    }
+    
+    if( simu_sin_bump_dirichlet ) {
+        Simu::sinus_bump_dirichlet_pb("data/square.mesh", verbose );
     }
 }
 
