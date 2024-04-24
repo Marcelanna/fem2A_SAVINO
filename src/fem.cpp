@@ -145,7 +145,7 @@ namespace FEM2A {
         
         	}
         
-        std::cout << '\n';
+        //std::cout << '\n';
         
         if( not border ){
         	//std::cout << "triangle"<< std::endl;

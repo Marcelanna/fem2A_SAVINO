@@ -37,7 +37,7 @@ namespace FEM2A {
             std::cout << "Solving a pure Dirichlet problem" << std::endl;           
             if ( verbose ) 
             {
-                std::cout << " run simulation " << std::endl;
+                std::cout << " run simulation " << std::endl << "The limit conditions are imposed to all the edges of the mesh following the Dirichlet condition." << std::endl;
             }
             
             Mesh mesh;
