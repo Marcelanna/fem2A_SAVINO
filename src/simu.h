@@ -79,7 +79,7 @@ namespace FEM2A {
             
             std::vector<double> U(mesh.nb_vertices());
             solve(K, F, U);
-            std::string export_name = "pure_dirichlet";
+            std::string export_name = "./data/output/pure_dirichlet_square_fine";
             mesh.save(export_name + ".mesh");
             save_solution(U, export_name + ".bb");
             
@@ -144,7 +144,7 @@ namespace FEM2A {
             
             std::vector<double> U(mesh.nb_vertices());
             solve(K, F, U);
-            std::string export_name = "source_dirichlet";
+            std::string export_name = "./data/output/source_dirichlet_square_fine";
             mesh.save(export_name + ".mesh");
             save_solution(U, export_name + ".bb");
             
@@ -211,7 +211,7 @@ namespace FEM2A {
             
             std::vector<double> U(mesh.nb_vertices());
             solve(K, F, U);
-            std::string export_name = "sin_bump_dirichlet";
+            std::string export_name = "./data/output/sin_bump_dirichlet_square_fine";
             mesh.save(export_name + ".mesh");
             save_solution(U, export_name + ".bb");
             

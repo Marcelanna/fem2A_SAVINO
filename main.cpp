@@ -88,7 +88,7 @@ void run_simu()
     }
     
     if( simu_sin_bump_dirichlet ) {
-        Simu::sinus_bump_dirichlet_pb("data/square.mesh", verbose );
+        Simu::sinus_bump_dirichlet_pb("data/square_fine.mesh", verbose );
     }
 }
 
