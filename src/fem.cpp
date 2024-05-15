@@ -403,9 +403,6 @@ namespace FEM2A {
         		F[indice_triangle] = Fe[indice_v];
         	}
         }
-        
-        
-        
     }
 
     void apply_dirichlet_boundary_conditions(

@@ -38,6 +38,8 @@ namespace FEM2A {
         //  Simulations
         //#################################
 
+	/////Pure Dirichlet problem simulation////
+	
         void pure_dirichlet_pb( const std::string& mesh_filename, bool verbose )
         {
             std::cout << "Solving a pure Dirichlet problem" << std::endl;           
@@ -49,7 +51,8 @@ namespace FEM2A {
             Mesh mesh;
             mesh.load(mesh_filename);
             SparseMatrix K(mesh.nb_vertices());  
-                      
+            
+            //K and Ke initialisation          
             for(int t=0; t < mesh.nb_triangles(); t++)
             {
             	ElementMapping elt_mapping = ElementMapping( mesh, false, t );
@@ -59,10 +62,10 @@ namespace FEM2A {
     		assemble_elementary_matrix(elt_mapping, reference_functions, quadrature, unit_fct, Ke);
 
     		local_to_global_matrix( mesh, t, Ke, K );
-    		
-            	
             }
+            
             std::vector< bool > attribute_is_dirichlet(1, true);
+            //other possibility 
             /*std::vector< bool > attribute_is_dirichlet(2, false);
             att_is_dirichlet[1] = true;*/
             	
@@ -77,17 +80,20 @@ namespace FEM2A {
             
             apply_dirichlet_boundary_conditions(mesh, attribute_is_dirichlet, values, K, F );
             
+            //Solution vector U calcuation
             std::vector<double> U(mesh.nb_vertices());
             solve(K, F, U);
+            
+            //To choose the output files name
             std::string export_name = "./data/output/pure_dirichlet_square_fine";
             mesh.save(export_name + ".mesh");
             save_solution(U, export_name + ".bb");
-            
             
         }
         
         
         
+        ////With source term Dirichlet problem simulation////
         
         void source_dirichlet_pb( const std::string& mesh_filename, bool verbose )
         {
@@ -116,8 +122,6 @@ namespace FEM2A {
             
             //attribut_is_dirichlet initialization
             std::vector< bool > attribute_is_dirichlet(1, true);
-            /*std::vector< bool > attribute_is_dirichlet(2, false);
-            att_is_dirichlet[1] = true;*/
             	
             mesh.set_attribute(unit_fct, 1, true );
 
@@ -142,8 +146,11 @@ namespace FEM2A {
             
             apply_dirichlet_boundary_conditions(mesh, attribute_is_dirichlet, values, K, F );
             
+            //Solution vector U calcuation
             std::vector<double> U(mesh.nb_vertices());
             solve(K, F, U);
+            
+            //To choose the output files name
             std::string export_name = "./data/output/source_dirichlet_square_fine";
             mesh.save(export_name + ".mesh");
             save_solution(U, export_name + ".bb");
@@ -155,7 +162,8 @@ namespace FEM2A {
         
         
 
-
+	////Sinus bump problem simulation////
+	
 	void sinus_bump_dirichlet_pb( const std::string& mesh_filename, bool verbose )
         {
             std::cout << "Solving a source term Dirichlet problem" << std::endl;           
@@ -209,12 +217,14 @@ namespace FEM2A {
             
             apply_dirichlet_boundary_conditions(mesh, attribute_is_dirichlet, values, K, F );
             
+            //Solution calcuation
             std::vector<double> U(mesh.nb_vertices());
             solve(K, F, U);
+            
+            //Solution vector U calcuation
             std::string export_name = "./data/output/sin_bump_dirichlet_square_fine";
             mesh.save(export_name + ".mesh");
             save_solution(U, export_name + ".bb");
-            
             
         }
     }
